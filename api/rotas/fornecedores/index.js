@@ -8,7 +8,7 @@ roteador.get('/', async (req, res) => {
 });
 
 roteador.get('/:idFornecedor', async (req, res) => {
-    const id = req.params["idFornecedor"];
+    const id = req.params['idFornecedor'];
     const fornecedor = new Fornecedor({id: id});
     try {
         await fornecedor.carregar()
@@ -29,12 +29,27 @@ roteador.post('/', async (req, res) => {
 
 roteador.put('/:idFornecedor', async (req, res) => {
     const dadosRecebidos = req.body;
-    const id = req.params["idFornecedor"];
+    const id = req.params['idFornecedor'];
     const dados = Object.assign({}, dadosRecebidos, {id: id});
     const fornecedor = new Fornecedor(dados);
     try {
         await fornecedor.atualizar();
         res.end();
+    } catch (erro) {
+        res.send(JSON.stringify({
+            mensagem: erro.message
+        }));
+    }
+});
+
+roteador.delete('/:idFornecedor', async (req, res) => {
+    const id = req.params['idFornecedor'];
+    const fornecedor = new Fornecedor({id: id});
+    try {
+        await fornecedor.carregar();
+        await fornecedor.deletar();
+        res.end();
+        res.status(204);
     } catch (erro) {
         res.send(JSON.stringify({
             mensagem: erro.message
