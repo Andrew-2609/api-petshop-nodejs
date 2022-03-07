@@ -12,6 +12,8 @@ class Fornecedor {
     }
 
     async criar() {
+        this.validarCampos();
+
         const resultado = await TabelaFornecedor.inserir({
             empresa: this.empresa,
             email: this.email,
@@ -55,6 +57,23 @@ class Fornecedor {
 
     deletar() {
         return TabelaFornecedor.deletar(this.id);
+    }
+
+    validarCampos() {
+        const campos = ['empresa', 'email', 'categoria'];
+        const erros = [];
+
+        campos.forEach(campo => {
+            const valor = this[campo];
+
+            if (typeof valor !== 'string' || valor.length === 0) {
+                erros.push(`O campo '${campo}' passado é inválido`);
+            }
+        });
+
+        if (erros.length > 0) {
+            throw new Error(erros.join('; '));
+        }
     }
 }
 
