@@ -27,4 +27,19 @@ roteador.post('/', async (req, res) => {
     res.send(JSON.stringify(fornecedor));
 });
 
+roteador.put('/:idFornecedor', async (req, res) => {
+    const dadosRecebidos = req.body;
+    const id = req.params["idFornecedor"];
+    const dados = Object.assign({}, dadosRecebidos, {id: id});
+    const fornecedor = new Fornecedor(dados);
+    try {
+        await fornecedor.atualizar();
+        res.end();
+    } catch (erro) {
+        res.send(JSON.stringify({
+            mensagem: erro.message
+        }));
+    }
+});
+
 module.exports = roteador;
