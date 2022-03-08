@@ -1,4 +1,4 @@
-class NaoEncontrado extends Error {
+class FornecedorNaoEncontrado extends Error {
     constructor() {
         super('Fornecedor não foi encontrado!');
         this.name = 'FornecedorNaoEncontrado';
@@ -6,4 +6,4 @@ class NaoEncontrado extends Error {
     }
 }
 
-module.exports = NaoEncontrado;
+module.exports = FornecedorNaoEncontrado;
