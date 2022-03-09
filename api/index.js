@@ -4,16 +4,20 @@ const config = require('config');
 const roteador = require('./rotas/fornecedores');
 const FornecedorNaoEncontradoError = require('./erros/FornecedorNaoEncontradoError');
 const CampoInvalidoError = require('./erros/CampoInvalidoError');
+const DadosNaoFornecidosError = require('./erros/DadosNaoFornecidosError');
 
 app.use(express.json());
 
 app.use('/api/fornecedores', roteador);
 
 app.use((erro, req, res, next) => {
-    let codigoStatus;
+    let codigoStatus = 500;
 
-    codigoStatus = erro instanceof FornecedorNaoEncontradoError ? 404 : 400;
-    codigoStatus = erro instanceof CampoInvalidoError ? 400 : codigoStatus;
+    codigoStatus = erro instanceof FornecedorNaoEncontradoError ? 404 : codigoStatus;
+    codigoStatus = erro instanceof CampoInvalidoError || erro instanceof DadosNaoFornecidosError
+        ? 400
+        : codigoStatus
+    ;
 
     res.status(codigoStatus);
     res.send(JSON.stringify({
