@@ -4,7 +4,8 @@ const jsontoxml = require('jsontoxml');
 class Serializador {
     contentType;
     camposPublicos;
-    tag;
+    tagSingular;
+    tagPlural;
 
     serializar(dados) {
         dados = this.filtrar(dados);
@@ -25,7 +26,8 @@ class Serializador {
     }
 
     xml(dados) {
-        return jsontoxml({[this.tag]: dados});
+        let tag = Array.isArray(dados) ? this.tagPlural : this.tagSingular;
+        return jsontoxml({[tag]: dados});
     }
 
     filtrarObjeto(dados) {
@@ -57,7 +59,8 @@ class SerializadorFornecedor extends Serializador {
         this.contentType = contentType;
         this.camposPublicos = ['id', 'empresa', 'categoria']
             .concat(camposExtras || []);
-        this.tag = 'fornecedor';
+        this.tagSingular = 'fornecedor';
+        this.tagPlural = 'fornecedores';
     }
 }
 
@@ -67,7 +70,8 @@ class SerializadorErro extends Serializador {
         this.contentType = contentType;
         this.camposPublicos = ['id', 'mensagem']
             .concat(camposExtras || []);
-        this.tag = 'erro';
+        this.tagSingular = 'erro';
+        this.tagPlural = 'erros';
     }
 }
 
