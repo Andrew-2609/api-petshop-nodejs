@@ -26,7 +26,15 @@ class Serializador {
     }
 
     xml(dados) {
-        let tag = Array.isArray(dados) ? this.tagPlural : this.tagSingular;
+        let tag;
+
+        if (Array.isArray(dados)) {
+            tag = this.tagPlural;
+            dados = dados.map(item => ({[this.tagSingular]: item}))
+        } else {
+            tag = this.tagSingular;
+        }
+
         return jsontoxml({[tag]: dados});
     }
 
