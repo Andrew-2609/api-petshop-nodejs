@@ -6,8 +6,26 @@ const FornecedorNaoEncontradoError = require('./erros/FornecedorNaoEncontradoErr
 const CampoInvalidoError = require('./erros/CampoInvalidoError');
 const DadosNaoFornecidosError = require('./erros/DadosNaoFornecidosError');
 const ValorNaoSuportadoError = require('./erros/ValorNaoSuportadoError');
+const {formatosAceitos} = require('./Serializador');
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+    let formatoRequisitado = req.header('Accept');
+
+    if (formatoRequisitado === '*/*') {
+        formatoRequisitado = 'application/json';
+    }
+
+    if (!formatosAceitos.includes(formatoRequisitado)) {
+        res.status(406);
+        res.end();
+        return;
+    }
+
+    res.setHeader('Content-Type', formatoRequisitado);
+    next();
+});
 
 app.use('/api/fornecedores', roteador);
 
