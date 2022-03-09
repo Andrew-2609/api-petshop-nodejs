@@ -8,7 +8,7 @@ roteador.get('/', async (req, res) => {
     res.send(JSON.stringify(resultados));
 });
 
-roteador.get('/:idFornecedor', async (req, res) => {
+roteador.get('/:idFornecedor', async (req, res, next) => {
     const id = req.params['idFornecedor'];
     const fornecedor = new Fornecedor({id: id});
     try {
@@ -16,10 +16,7 @@ roteador.get('/:idFornecedor', async (req, res) => {
         res.status(200);
         res.send(fornecedor);
     } catch (erro) {
-        res.status(404);
-        res.send(JSON.stringify({
-            mensagem: erro.message
-        }));
+        next(erro);
     }
 });
 
