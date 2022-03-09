@@ -6,7 +6,7 @@ const FornecedorNaoEncontradoError = require('./erros/FornecedorNaoEncontradoErr
 const CampoInvalidoError = require('./erros/CampoInvalidoError');
 const DadosNaoFornecidosError = require('./erros/DadosNaoFornecidosError');
 const ValorNaoSuportadoError = require('./erros/ValorNaoSuportadoError');
-const {formatosAceitos} = require('./Serializador');
+const {SerializadorErro, formatosAceitos} = require('./Serializador');
 
 app.use(express.json());
 
@@ -39,8 +39,10 @@ app.use((erro, req, res, next) => {
     codigoStatus = erro instanceof FornecedorNaoEncontradoError ? 404 : codigoStatus;
     codigoStatus = erro instanceof ValorNaoSuportadoError ? 406 : codigoStatus;
 
+    const serializador = new SerializadorErro(res.getHeader('Content-Type'));
+
     res.status(codigoStatus);
-    res.send(JSON.stringify({
+    res.send(serializador.serializar({
         mensagem: erro.message,
         id: erro.idErro
     }));
