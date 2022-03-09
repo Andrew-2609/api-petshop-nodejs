@@ -1,4 +1,5 @@
 const TabelaFornecedor = require('./TabelaFornecedor');
+const CampoInvalidoError = require('../../erros/CampoInvalidoError');
 
 class Fornecedor {
     constructor({id, empresa, email, categoria, dataCriacao, dataAtualizacao, versao}) {
@@ -67,7 +68,7 @@ class Fornecedor {
             const valor = this[campo];
 
             if (typeof valor !== 'string' || valor.length === 0) {
-                erros.push(`O campo '${campo}' passado é inválido`);
+                erros.push(new CampoInvalidoError(campo));
             }
         });
 
