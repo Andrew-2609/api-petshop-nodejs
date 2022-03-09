@@ -3,7 +3,7 @@ const FornecedorNaoEncontrado = require('../../erros/FornecedorNaoEncontradoErro
 
 module.exports = {
     listar() {
-        return Modelo.findAll();
+        return Modelo.findAll({raw: true});
     },
     async pegarPorId(id) {
         const fornecedorEncontrado = await Modelo.findOne({
