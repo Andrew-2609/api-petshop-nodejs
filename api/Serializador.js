@@ -1,12 +1,20 @@
 const ValorNaoSuportadoError = require('./erros/ValorNaoSuportadoError');
+const jsontoxml = require('jsontoxml');
 
 class Serializador {
     contentType;
     camposPublicos;
+    tag;
 
     serializar(dados) {
+        dados = this.filtrar(dados);
+
         if (this.contentType === 'application/json') {
-            return this.json(this.filtrar(dados));
+            return this.json(dados);
+        }
+
+        if (this.contentType === 'application/xml') {
+            return this.xml(dados);
         }
 
         throw new ValorNaoSuportadoError(this.contentType);
@@ -14,6 +22,10 @@ class Serializador {
 
     json(dados) {
         return JSON.stringify(dados);
+    }
+
+    xml(dados) {
+        return jsontoxml({[this.tag]: dados});
     }
 
     filtrarObjeto(dados) {
@@ -45,6 +57,7 @@ class SerializadorFornecedor extends Serializador {
         this.contentType = contentType;
         this.camposPublicos = ['id', 'empresa', 'categoria']
             .concat(camposExtras || []);
+        this.tag = 'fornecedor';
     }
 }
 
@@ -54,6 +67,7 @@ class SerializadorErro extends Serializador {
         this.contentType = contentType;
         this.camposPublicos = ['id', 'mensagem']
             .concat(camposExtras || []);
+        this.tag = 'erro';
     }
 }
 
