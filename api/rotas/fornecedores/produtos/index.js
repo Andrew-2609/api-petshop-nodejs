@@ -1,4 +1,4 @@
-const roteador = require('express').Router();
+const roteador = require('express').Router({mergeParams: true});
 const TabelaProduto = require('./TabelaProduto');
 
 roteador.get('/', async (req, res) => {
