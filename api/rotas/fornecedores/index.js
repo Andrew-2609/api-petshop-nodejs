@@ -2,6 +2,7 @@ const roteador = require('express').Router();
 const TabelaFornecedor = require('./TabelaFornecedor');
 const Fornecedor = require('./Fornecedor');
 const {SerializadorFornecedor} = require('../../Serializador');
+const roteadorProdutos = require('./produtos');
 
 roteador.get('/', async (req, res) => {
     const resultados = await TabelaFornecedor.listar();
@@ -71,5 +72,7 @@ roteador.delete('/:idFornecedor', async (req, res, next) => {
         next(erro);
     }
 });
+
+roteador.use('/:idFornecedor/produtos', roteadorProdutos);
 
 module.exports = roteador;
