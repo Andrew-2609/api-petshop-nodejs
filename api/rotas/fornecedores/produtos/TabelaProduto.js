@@ -7,5 +7,8 @@ module.exports = {
                 idFornecedor: idFornecedor
             }
         });
+    },
+    inserir(produto) {
+        return Modelo.create(produto);
     }
 };
