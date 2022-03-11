@@ -10,6 +10,14 @@ roteador.get('/', async (req, res) => {
     );
 });
 
+roteador.get('/:idProduto', async (req, res) => {
+    const idProduto = req.params['idProduto'];
+    const produto = new Produto({id: idProduto});
+    await produto.carregar();
+    res.status(200);
+    res.send(JSON.stringify(produto));
+});
+
 roteador.post('/', async (req, res) => {
     const idFornecedor = req.params['idFornecedor'];
     const corpo = req.body;
