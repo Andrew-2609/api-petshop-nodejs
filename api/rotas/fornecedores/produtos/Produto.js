@@ -26,6 +26,17 @@ class Produto {
         this.versao = resultado.versao;
     }
 
+    async carregar() {
+        const produtoEncontrado = await TabelaProduto.pegarPorId(this.id);
+        this.titulo = produtoEncontrado.titulo;
+        this.preco = produtoEncontrado.preco;
+        this.estoque = produtoEncontrado.estoque;
+        this.idFornecedor = produtoEncontrado.idFornecedor;
+        this.dataCriacao = produtoEncontrado.dataCriacao;
+        this.dataAtualizacao = produtoEncontrado.dataAtualizacao;
+        this.versao = produtoEncontrado.versao;
+    }
+
     deletar() {
         return TabelaProduto.deletar(this.id);
     }
