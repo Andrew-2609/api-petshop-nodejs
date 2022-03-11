@@ -47,11 +47,11 @@ class Produto {
             throw new Error(`O campo 'titulo' passado é inválido!`);
         }
 
-        if (this.preco <= 0) {
+        if (typeof this.preco !== 'number' || this.preco <= 0) {
             throw new Error(`O campo 'preco' passado é inválido!`);
         }
 
-        if (this.estoque < 0) {
+        if (typeof this.estoque !== 'number' || this.estoque < 0) {
             throw new Error(`O campo 'estoque' passado é inválido!`);
         }
     }
