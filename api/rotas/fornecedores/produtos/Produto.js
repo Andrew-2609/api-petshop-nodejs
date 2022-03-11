@@ -13,6 +13,7 @@ class Produto {
     }
 
     async criar() {
+        this.validar();
         const resultado = await TabelaProduto.inserir({
             titulo: this.titulo,
             preco: this.preco,
@@ -39,6 +40,20 @@ class Produto {
 
     deletar() {
         return TabelaProduto.deletar(this.id);
+    }
+
+    validar() {
+        if (typeof this.titulo !== 'string' || this.titulo.length === 0) {
+            throw new Error(`O campo 'titulo' passado é inválido!`);
+        }
+
+        if (this.preco <= 0) {
+            throw new Error(`O campo 'preco' passado é inválido!`);
+        }
+
+        if (this.estoque < 0) {
+            throw new Error(`O campo 'estoque' passado é inválido!`);
+        }
     }
 }
 
