@@ -10,5 +10,10 @@ module.exports = {
     },
     inserir(produto) {
         return Modelo.create(produto);
+    },
+    deletar(idProduto) {
+        return Modelo.destroy({
+            where: {id: idProduto}
+        });
     }
 };
