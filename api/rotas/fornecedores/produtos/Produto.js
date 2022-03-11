@@ -25,6 +25,10 @@ class Produto {
         this.dataAtualizacao = resultado.dataAtualizacao;
         this.versao = resultado.versao;
     }
+
+    deletar() {
+        return TabelaProduto.deletar(this.id);
+    }
 }
 
 module.exports = Produto;
