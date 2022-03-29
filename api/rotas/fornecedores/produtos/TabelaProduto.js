@@ -21,6 +21,12 @@ module.exports = {
     inserir(produto) {
         return Modelo.create(produto);
     },
+    atualizar(idProduto, dadosParaAtualizar) {
+        return Modelo.update(
+            dadosParaAtualizar,
+            { where: { id: idProduto } }
+        );
+    },
     deletar(idProduto) {
         return Modelo.destroy({
             where: { id: idProduto }
