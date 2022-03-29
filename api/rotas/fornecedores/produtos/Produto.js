@@ -1,7 +1,8 @@
+const DadosNaoFornecidosError = require('../../../erros/DadosNaoFornecidosError.js');
 const TabelaProduto = require('./TabelaProduto');
 
 class Produto {
-    constructor({id, titulo, preco, estoque, idFornecedor, dataCriacao, dataAtualizacao, versao}) {
+    constructor({ id, titulo, preco, estoque, idFornecedor, dataCriacao, dataAtualizacao, versao }) {
         this.id = id;
         this.titulo = titulo;
         this.preco = preco;
@@ -36,6 +37,30 @@ class Produto {
         this.dataCriacao = produtoEncontrado.dataCriacao;
         this.dataAtualizacao = produtoEncontrado.dataAtualizacao;
         this.versao = produtoEncontrado.versao;
+    }
+
+    atualizar() {
+        const dadosParaAtualizar = {};
+
+        if (typeof this.titulo == 'string' && this.titulo.length > 0) {
+            dadosParaAtualizar.titulo = this.titulo;
+        }
+
+        if (typeof this.preco == 'number' && this.preco > 0) {
+            dadosParaAtualizar.preco = this.preco;
+        }
+
+        if (typeof this.estoque == 'number' && this.estoque >= 0) {
+            dadosParaAtualizar.estoque = this.estoque;
+        }
+
+        if (Object.keys(dadosParaAtualizar).length == 0) {
+            return new DadosNaoFornecidosError();
+        }
+
+        return TabelaProduto.atualizar({
+            id: this.id
+        }, dadosParaAtualizar);
     }
 
     deletar() {
