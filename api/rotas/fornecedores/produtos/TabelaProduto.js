@@ -4,14 +4,12 @@ const ProdutoNaoEncontradoError = require('../../../erros/ProdutoNaoEncontradoEr
 module.exports = {
     listar(idFornecedor) {
         return Modelo.findAll({
-            where: {
-                idFornecedor: idFornecedor
-            }
+            where: { idFornecedor: idFornecedor }, raw: true
         });
     },
     async pegarPorId(idProduto) {
         const produtoEncontrado = await Modelo.findOne({
-            where: {id: idProduto}, raw: true
+            where: { id: idProduto }, raw: true
         });
 
         if (!produtoEncontrado) {
@@ -25,7 +23,7 @@ module.exports = {
     },
     deletar(idProduto) {
         return Modelo.destroy({
-            where: {id: idProduto}
+            where: { id: idProduto }
         });
     }
 };
