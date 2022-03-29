@@ -55,7 +55,7 @@ class Produto {
         }
 
         if (Object.keys(dadosParaAtualizar).length == 0) {
-            return new DadosNaoFornecidosError();
+            throw new DadosNaoFornecidosError();
         }
 
         return TabelaProduto.atualizar({
