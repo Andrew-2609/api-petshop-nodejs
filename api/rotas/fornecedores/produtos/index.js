@@ -12,12 +12,20 @@ roteador.get('/', async (req, res) => {
     res.send(serializador.serializar(produtos));
 });
 
-roteador.get('/:idProduto', async (req, res) => {
+roteador.get('/:idProduto', async (req, res, next) => {
     const idProduto = req.params['idProduto'];
     const produto = new Produto({ id: idProduto });
-    await produto.carregar();
-    res.status(200);
-    res.send(JSON.stringify(produto));
+
+    try {
+        await produto.carregar();
+
+        const serializador = new SerializadorProduto(res.getHeader('Content-Type'));
+
+        res.status(200);
+        res.send(serializador.serializar(produto));
+    } catch (erro) {
+        next(erro);
+    }
 });
 
 roteador.post('/', async (req, res, next) => {
