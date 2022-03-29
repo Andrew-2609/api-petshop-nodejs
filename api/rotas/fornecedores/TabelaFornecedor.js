@@ -3,11 +3,11 @@ const FornecedorNaoEncontrado = require('../../erros/FornecedorNaoEncontradoErro
 
 module.exports = {
     listar() {
-        return Modelo.findAll({raw: true});
+        return Modelo.findAll({ raw: true });
     },
     async pegarPorId(id) {
         const fornecedorEncontrado = await Modelo.findOne({
-            where: {id: id}
+            where: { id: id }
         });
 
         if (!fornecedorEncontrado) {
@@ -23,14 +23,14 @@ module.exports = {
         return Modelo.update(
             dadosParaAtualizar,
             {
-                where: {id: id}
+                where: { id: id }
             }
-        )
+        );
     },
     deletar(id) {
         return Modelo.destroy(
             {
-                where: {id: id}
+                where: { id: id }
             }
         );
     }
