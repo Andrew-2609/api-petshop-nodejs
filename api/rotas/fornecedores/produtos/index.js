@@ -48,6 +48,21 @@ roteador.post('/', async (req, res, next) => {
     }
 });
 
+roteador.put('/:idProduto', async (req, res, next) => {
+    const idProduto = req.params['idProduto'];
+    const corpo = req.body;
+    const dados = Object.assign({}, corpo, { id: idProduto });
+    const produto = new Produto(dados);
+
+    try {
+        await produto.atualizar();
+        res.status(204);
+        res.end();
+    } catch (erro) {
+        next(erro);
+    }
+});
+
 roteador.delete('/:idProduto', async (req, res) => {
     const idProduto = req.params['idProduto'];
     const produto = new Produto({ id: idProduto });
