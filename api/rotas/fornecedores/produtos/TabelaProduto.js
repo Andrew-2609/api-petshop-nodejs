@@ -11,7 +11,7 @@ module.exports = {
     },
     async pegarPorId(idProduto) {
         const produtoEncontrado = await Modelo.findOne({
-            where: {id: idProduto}
+            where: {id: idProduto}, raw: true
         });
 
         if (!produtoEncontrado) {
