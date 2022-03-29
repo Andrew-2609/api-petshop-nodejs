@@ -1,13 +1,15 @@
 const roteador = require('express').Router({ mergeParams: true });
 const TabelaProduto = require('./TabelaProduto');
 const Produto = require('./Produto');
+const { SerializadorProduto } = require('../../../Serializador.js');
 
 roteador.get('/', async (req, res) => {
     const produtos = await TabelaProduto.listar(req.fornecedor.id);
+
+    const serializador = new SerializadorProduto(res.getHeader('Content-Type'));
+
     res.status(200);
-    res.send(
-        JSON.stringify(produtos)
-    );
+    res.send(serializador.serializar(produtos));
 });
 
 roteador.get('/:idProduto', async (req, res) => {
