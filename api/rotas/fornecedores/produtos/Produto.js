@@ -39,28 +39,27 @@ class Produto {
         this.versao = produtoEncontrado.versao;
     }
 
-    atualizar() {
+    async atualizar() {
+        await TabelaProduto.pegarPorId(this.id);
         const dadosParaAtualizar = {};
 
-        if (typeof this.titulo == 'string' && this.titulo.length > 0) {
+        if (typeof this.titulo === 'string' && this.titulo.length > 0) {
             dadosParaAtualizar.titulo = this.titulo;
         }
 
-        if (typeof this.preco == 'number' && this.preco > 0) {
+        if (typeof this.preco === 'number' && this.preco > 0) {
             dadosParaAtualizar.preco = this.preco;
         }
 
-        if (typeof this.estoque == 'number' && this.estoque >= 0) {
+        if (typeof this.estoque === 'number' && this.estoque >= 0) {
             dadosParaAtualizar.estoque = this.estoque;
         }
 
-        if (Object.keys(dadosParaAtualizar).length == 0) {
+        if (Object.keys(dadosParaAtualizar).length === 0) {
             throw new DadosNaoFornecidosError();
         }
 
-        return TabelaProduto.atualizar({
-            id: this.id
-        }, dadosParaAtualizar);
+        await TabelaProduto.atualizar(this.id, dadosParaAtualizar);
     }
 
     deletar() {
