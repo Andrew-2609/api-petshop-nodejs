@@ -19,7 +19,10 @@ roteador.get('/:idProduto', async (req, res, next) => {
     try {
         await produto.carregar();
 
-        const serializador = new SerializadorProduto(res.getHeader('Content-Type'));
+        const serializador = new SerializadorProduto(
+            res.getHeader('Content-Type'),
+            ['idFornecedor', 'preco', 'estoque', 'dataCriacao', 'dataAtualizacao', 'versao']
+        );
 
         res.status(200);
         res.send(serializador.serializar(produto));
