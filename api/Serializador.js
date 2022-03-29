@@ -30,12 +30,12 @@ class Serializador {
 
         if (Array.isArray(dados)) {
             tag = this.tagPlural;
-            dados = dados.map(item => ({[this.tagSingular]: item}))
+            dados = dados.map(item => ({ [this.tagSingular]: item }))
         } else {
             tag = this.tagSingular;
         }
 
-        return jsontoxml({[tag]: dados});
+        return jsontoxml({ [tag]: dados });
     }
 
     filtrarObjeto(dados) {
@@ -72,6 +72,17 @@ class SerializadorFornecedor extends Serializador {
     }
 }
 
+class SerializadorProduto extends Serializador {
+    constructor(contentType, camposExtras) {
+        super();
+        this.contentType = contentType;
+        this.camposPublicos = ['id', 'titulo']
+            .concat(camposExtras || []);
+        this.tagSingular = 'produto';
+        this.tagPlural = 'produtos';
+    }
+}
+
 class SerializadorErro extends Serializador {
     constructor(contentType, camposExtras) {
         super();
@@ -86,6 +97,7 @@ class SerializadorErro extends Serializador {
 module.exports = {
     Serializador: Serializador,
     SerializadorFornecedor: SerializadorFornecedor,
+    SerializadorProduto: SerializadorProduto,
     SerializadorErro: SerializadorErro,
     formatosAceitos: ['application/json', 'application/xml']
 };
