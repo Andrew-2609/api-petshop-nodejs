@@ -24,7 +24,9 @@ module.exports = {
     atualizar(idProduto, dadosParaAtualizar) {
         return Modelo.update(
             dadosParaAtualizar,
-            { where: { id: idProduto } }
+            {
+                where: { id: idProduto }
+            }
         );
     },
     deletar(idProduto) {
