@@ -1,7 +1,7 @@
 const roteador = require('express').Router();
 const TabelaFornecedor = require('./TabelaFornecedor');
 const Fornecedor = require('./Fornecedor');
-const {SerializadorFornecedor} = require('../../Serializador');
+const { SerializadorFornecedor } = require('../../Serializador');
 const roteadorProdutos = require('./produtos');
 
 roteador.get('/', async (req, res) => {
@@ -15,7 +15,7 @@ roteador.get('/', async (req, res) => {
 
 roteador.get('/:idFornecedor', async (req, res, next) => {
     const id = req.params['idFornecedor'];
-    const fornecedor = new Fornecedor({id: id});
+    const fornecedor = new Fornecedor({ id: id });
     try {
         await fornecedor.carregar();
 
@@ -49,7 +49,7 @@ roteador.post('/', async (req, res, next) => {
 roteador.put('/:idFornecedor', async (req, res, next) => {
     const dadosRecebidos = req.body;
     const id = req.params['idFornecedor'];
-    const dados = Object.assign({}, dadosRecebidos, {id: id});
+    const dados = Object.assign({}, dadosRecebidos, { id: id });
     const fornecedor = new Fornecedor(dados);
     try {
         await fornecedor.atualizar();
@@ -62,7 +62,7 @@ roteador.put('/:idFornecedor', async (req, res, next) => {
 
 roteador.delete('/:idFornecedor', async (req, res, next) => {
     const id = req.params['idFornecedor'];
-    const fornecedor = new Fornecedor({id: id});
+    const fornecedor = new Fornecedor({ id: id });
     try {
         await fornecedor.carregar();
         await fornecedor.deletar();
@@ -73,6 +73,18 @@ roteador.delete('/:idFornecedor', async (req, res, next) => {
     }
 });
 
-roteador.use('/:idFornecedor/produtos', roteadorProdutos);
+const verificarFornecedor = async (req, res, next) => {
+    try {
+        const id = req.params['idFornecedor'];
+        const fornecedor = new Fornecedor({ id: id });
+        await fornecedor.carregar();
+        req.fornecedor = fornecedor;
+        next();
+    } catch (erro) {
+        next(erro);
+    }
+};
+
+roteador.use('/:idFornecedor/produtos', verificarFornecedor, roteadorProdutos);
 
 module.exports = roteador;
