@@ -38,8 +38,11 @@ roteador.post('/', async (req, res, next) => {
         const dados = Object.assign({}, corpo, { idFornecedor: idFornecedor });
         const produto = new Produto(dados);
         await produto.criar();
+
+        const serializador = new SerializadorProduto(res.getHeader('Content-Type'));
+
         res.status(201);
-        res.send(JSON.stringify(produto));
+        res.send(serializador.serializar(produto));
     } catch (erro) {
         next(erro);
     }
