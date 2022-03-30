@@ -12,6 +12,17 @@ roteador.get('/', async (req, res) => {
     res.send(serializador.serializar(produtos));
 });
 
+roteador.get('/produtos-com-baixo-estoque', async (req, res, next) => {
+    const produtosAbaixoDoEstoque = await TabelaProduto.checarEstoqueBaixo(req.fornecedor.id);
+
+    const serializador = new SerializadorProduto(res.getHeader('Content-Type'), ['quantidade', 'produtos']);
+
+    res.status(200);
+    res.send(serializador.serializar(
+        { quantidade: produtosAbaixoDoEstoque.length, produtos: produtosAbaixoDoEstoque },
+    ));
+});
+
 roteador.get('/:idProduto', async (req, res, next) => {
     const idProduto = req.params['idProduto'];
     const produto = new Produto({ id: idProduto });
