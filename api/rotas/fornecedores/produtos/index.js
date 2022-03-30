@@ -35,6 +35,8 @@ roteador.get('/:idProduto', async (req, res, next) => {
             ['idFornecedor', 'preco', 'estoque', 'dataCriacao', 'dataAtualizacao', 'versao']
         );
 
+        res.set('ETag', produto.versao);
+        res.set('Last-Modified', new Date(produto.dataAtualizacao).getTime());
         res.status(200);
         res.send(serializador.serializar(produto));
     } catch (erro) {
