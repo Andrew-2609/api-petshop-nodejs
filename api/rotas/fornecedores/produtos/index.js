@@ -89,8 +89,12 @@ roteador.patch('/:idProduto/diminuir-estoque', async (req, res, next) => {
     try {
         await produto.carregar();
         produto.estoque -= Math.abs(req.body['quantidade']);
-        await produto.subtrairEstoque();
 
+        await produto.subtrairEstoque();
+        await produto.carregar();
+
+        res.set('ETag', produto.versao);
+        res.set('Last-Modified', new Date(produto.dataAtualizacao).getTime());
         res.status(204);
         res.end();
     } catch (erro) {
