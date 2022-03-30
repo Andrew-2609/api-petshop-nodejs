@@ -3,6 +3,7 @@ class CampoInvalidoError extends Error {
         const mensagem = `O campo '${campo}' passado é inválido`;
         super(mensagem);
         this.name = 'CampoInvalidoError';
+        this.status = 400;
         this.idErro = 1;
     }
 }
