@@ -52,6 +52,9 @@ roteador.post('/', async (req, res, next) => {
 
         const serializador = new SerializadorProduto(res.getHeader('Content-Type'));
 
+        res.set('ETag', produto.versao);
+        res.set('Last-Modified', new Date(produto.dataAtualizacao).getTime());
+        res.set('Location', `/api/fornecedores/${produto.idFornecedor}/${produto.id}`);
         res.status(201);
         res.send(serializador.serializar(produto));
     } catch (erro) {
