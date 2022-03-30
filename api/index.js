@@ -7,6 +7,7 @@ const CampoInvalidoError = require('./erros/CampoInvalidoError');
 const DadosNaoFornecidosError = require('./erros/DadosNaoFornecidosError');
 const ValorNaoSuportadoError = require('./erros/ValorNaoSuportadoError');
 const {SerializadorErro, formatosAceitos} = require('./Serializador');
+const EstoqueAbaixoDeZeroError = require('./erros/EstoqueAbaixoDeZeroError.js');
 
 app.use(express.json());
 
@@ -32,7 +33,7 @@ app.use('/api/fornecedores', roteador);
 app.use((erro, req, res, next) => {
     let codigoStatus = 500;
 
-    codigoStatus = erro instanceof CampoInvalidoError || erro instanceof DadosNaoFornecidosError
+    codigoStatus = erro instanceof CampoInvalidoError || erro instanceof DadosNaoFornecidosError || erro instanceof EstoqueAbaixoDeZeroError
         ? 400
         : codigoStatus
     ;
