@@ -1,11 +1,19 @@
 const Modelo = require('./ModeloTabelaProduto');
 const ProdutoNaoEncontradoError = require('../../../erros/ProdutoNaoEncontradoError');
 const instancia = require('../../../banco-de-dados');
+const { Op } = require('sequelize');
 
 module.exports = {
     listar(idFornecedor) {
         return Modelo.findAll({
             where: { idFornecedor: idFornecedor }, raw: true
+        });
+    },
+    checarEstoqueBaixo(idFornecedor) {
+        return Modelo.findAll({
+            where: { idFornecedor: idFornecedor, estoque: { [Op.lt]: 56 } }, 
+            raw: true,
+            attributes: ['id', 'titulo', 'estoque']
         });
     },
     async pegarPorId(idProduto) {
