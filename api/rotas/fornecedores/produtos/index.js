@@ -63,6 +63,21 @@ roteador.put('/:idProduto', async (req, res, next) => {
     }
 });
 
+roteador.patch('/:idProduto/diminuir-estoque', async (req, res, next) => {
+    const idProduto = req.params['idProduto'];
+    const produto = new Produto({ id: idProduto });
+    try {
+        await produto.carregar();
+        produto.estoque -= Math.abs(req.body['quantidade']);
+        await produto.subtrairEstoque();
+
+        res.status(204);
+        res.end();
+    } catch (erro) {
+        next(erro);
+    }
+});
+
 roteador.delete('/:idProduto', async (req, res) => {
     const idProduto = req.params['idProduto'];
     const produto = new Produto({ id: idProduto });
