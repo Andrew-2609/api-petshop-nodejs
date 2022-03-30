@@ -1,4 +1,5 @@
 const DadosNaoFornecidosError = require('../../../erros/DadosNaoFornecidosError.js');
+const EstoqueAbaixoDeZeroError = require('../../../erros/EstoqueAbaixoDeZeroError.js');
 const TabelaProduto = require('./TabelaProduto');
 
 class Produto {
@@ -60,6 +61,14 @@ class Produto {
         }
 
         await TabelaProduto.atualizar(this.id, dadosParaAtualizar);
+    }
+
+    subtrairEstoque() {
+        if (this.estoque < 0) {
+            throw new EstoqueAbaixoDeZeroError();
+        }
+
+        return TabelaProduto.subtrairEstoque(this.id, 'estoque', this.estoque);
     }
 
     deletar() {
