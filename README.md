@@ -24,7 +24,7 @@ documentation:
 * [jsontoxml](https://www.npmjs.com/package/jsontoxml)
 * [config](https://www.npmjs.com/package/config)
 
-## Part II - Coming soon
+## Part II
 
 ### What's new?
 
