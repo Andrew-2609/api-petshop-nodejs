@@ -6,7 +6,7 @@ This is my first API created with NodeJS, based on one of [Alura](https://www.al
 
 ### What does it do?
 
-It retrieves data from a fictional Pet Shop with suppliers (fornecedores, in Portuguese) that can also be persisted,
+It retrieves data from a fictional Pet Shop with suppliers (fornecedores, in Portuguese) that can also be persisted, 
 updated and deleted. Therefore, this API has a
 simple [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) and endpoints to perform these operations.
 
@@ -26,4 +26,10 @@ documentation:
 
 ## Part II - Coming soon
 
-...
+### What's new?
+
+Now this API also retrives data from products (produtos, in Portuguese) related to suppliers, that can also be persisted, updated and deleted as well.
+
+The used technologies are basically the same! And the logic used to build this second part is very similar to the previous one, so it shouldn't be harder to understand.
+
+Thanks for accessing this repository! See ya.
