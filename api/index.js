@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const config = require('config');
 const roteador = require('./rotas/fornecedores');
+const roteadorV2 = require('./rotas/fornecedores/rotas.v2.js');
 const { SerializadorErro, formatosAceitos } = require('./Serializador');
 
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/fornecedores', roteador);
+app.use('/api/v2/fornecedores', roteadorV2);
 
 app.use((erro, req, res, next) => {
     const serializador = new SerializadorErro(res.getHeader('Content-Type'));
