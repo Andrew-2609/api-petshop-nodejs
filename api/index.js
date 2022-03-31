@@ -19,6 +19,7 @@ app.use((req, res, next) => {
         return;
     }
 
+    res.setHeader('X-Powered-By', 'NdrewCoding');
     res.setHeader('Content-Type', formatoRequisitado);
     next();
 });
